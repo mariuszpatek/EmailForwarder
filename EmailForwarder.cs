@@ -51,10 +51,13 @@ namespace EmailForwarder_2
 
             Task.WaitAll(sendingEmails.ToArray());
 
-            using (var db = new EmailForwarderDbContext())
+            if (emailsToSave.Count > 0)
             {
-                db.MailMessages.AddRange(emailsToSave);
-                db.SaveChanges();
+                using (var db = new EmailForwarderDbContext())
+                {
+                    db.MailMessages.AddRange(emailsToSave);
+                    db.SaveChanges();
+                }
             }
         }
     }
